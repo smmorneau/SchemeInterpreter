@@ -1,0 +1,7 @@
+(define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
+(display (fact 10))
+(define first car)
+(define rest cdr)
+(define count (lambda (item L) (if (not (null? L)) (+ (if (equal? item (first L)) 1 0) (count item (rest L))) 0)))
+(display (count 0 (list 0 1 2 3 0 0)))
+(display (count (quote the) (quote (the more the merrier the bigger the better))))
