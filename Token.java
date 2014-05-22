@@ -1,5 +1,6 @@
-// Token.java
-
+/**
+ * Represents the tokens output by the TokenScanner.
+ */
 class Token {
     int position;
     Token.Type tokenType;

@@ -1,8 +1,9 @@
-// Tree.java - a parse tree implementation for Scheme
-
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * A parse tree implementation for Scheme.
+ */
 public class Tree {
 	
     abstract static class Node {
@@ -66,18 +67,6 @@ public class Tree {
     
     public static void printTree(Node node) {
         System.out.println(node);
-    }
-
-    public static void main(String[] args) {
-        Sexpr t1 = new SexprNumber(1);
-        System.out.println(t1);
-
-        Sexpr t2 = new SexprList(new SexprIdent("+"));
-        System.out.println(t2);
-        
-        Sexpr t3 = new SexprList(t1, new SexprIdent("*"));
-        System.out.println(t3);
-
     }
 
 }

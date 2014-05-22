@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * Represents the values to be evaluated.
+ * Output by the EvalTree class.
+ */
 public class SValue {
 
     abstract static class Base {}

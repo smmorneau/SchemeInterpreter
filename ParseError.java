@@ -1,7 +1,6 @@
-// ParseError - An exception for parse errors.
-
-
-
+/**
+ * An exception for errors during expression parsing.
+ */
 public class ParseError extends Exception {
     Token token;
 

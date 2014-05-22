@@ -1,3 +1,6 @@
+/**
+ * An exception for expression evaluation errors.
+ */
 public class EvalError extends Exception {
     Tree.Node node;
 

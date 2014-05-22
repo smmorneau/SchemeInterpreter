@@ -3,7 +3,9 @@ SchemeInterpreter
 
 A parse tree constructor, recursive descent parser, and interpreter for Scheme.
 
-Limitation: Only runs single-line expressions.
+Limitations:
+	Only runs single-line expressions.
+	Only supports integer arithmetic.
 
 Run REPL mode:
 	java -jar scheme.jar

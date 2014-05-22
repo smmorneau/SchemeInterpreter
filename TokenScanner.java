@@ -32,7 +32,12 @@ public class TokenScanner {
         }
 	}
 	
-	// Method to scan tokens in given string
+	/**
+	 * Scan the tokens in given string.
+	 * 
+	 * @return LinkedList<Token>
+	 * @throws ScanError
+	 */
 	public LinkedList<Token> scan() throws ScanError {
         Token token;
         LinkedList<Token> tokens = new LinkedList<Token>();
@@ -47,6 +52,11 @@ public class TokenScanner {
         return tokens;	
 	}
 	
+	/**
+	 * Scan a token.
+	 * 
+	 * @return Token
+	 */
 	Token scanToken() {
         Token token = null;
         char c;
@@ -90,7 +100,9 @@ public class TokenScanner {
         return token;
     }
 	
-    // Get the next character from the inputString
+	/**
+	 * Get the next character from the inputString
+	 */
     void charTake() {
         position += 1;
         if (position < inputLength) {
@@ -100,7 +112,12 @@ public class TokenScanner {
             endOfText = true;
         }
     }
-    
+
+    /**
+     * Scan a number as defined in grammar above.
+     * 
+     * @return Token
+     */
     Token scanNumber() {
         int positionInt = position;
         String textInt = String.valueOf(curChar);
@@ -114,6 +131,11 @@ public class TokenScanner {
         return new Token(positionInt, Token.Type.NUMBER, textInt);
     }
     
+    /**
+     * Scan a boolean as defined in grammar above.
+     * 
+     * @return Token
+     */
     Token scanBool() {
         int positionBool = position;
         String textBool = String.valueOf(curChar);
@@ -131,6 +153,11 @@ public class TokenScanner {
         return new Token(positionBool, tokenType, textBool);
     }
     
+    /**
+     * Scan an ident as defined in grammar above.
+     * 
+     * @return Token
+     */
     Token scanIdent() {
         int positionIdent = position;
         String textIdent = String.valueOf(curChar);

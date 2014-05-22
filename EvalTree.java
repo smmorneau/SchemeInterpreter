@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Evaluates the parse tree.
+ */
 public class EvalTree {
 
     Tree.SexprList fullTree;
@@ -9,6 +12,14 @@ public class EvalTree {
         this.fullTree = tree;
     }
     
+    /**
+     * Evaluates an expression.
+     * 
+     * @param env
+     * @param repl
+     * @return Environment
+     * @throws EvalError
+     */
     public Environment eval(Environment env, boolean repl) throws EvalError {
     	if (env == null) {    		
     		env = new Environment();
@@ -22,6 +33,14 @@ public class EvalTree {
     	return env;
     }
     
+    /**
+     * Evaluates a Tree.Sexpr.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalSexpr(Tree.Sexpr tree, Environment env) throws EvalError {
     	if (tree instanceof Tree.SexprList) {        		
     		return evalSexprList((Tree.SexprList)tree, env);
@@ -41,6 +60,14 @@ public class EvalTree {
     	}
     }
 
+    /**
+     * Evaluates a Tree.SexprList.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalSexprList(Tree.SexprList tree, Environment env) throws EvalError {
     	SValue.Base first = env.lookup(((Tree.SexprIdent)tree.sexprList.get(0)).value);
     	if (first instanceof SValue.Function) {
@@ -102,6 +129,14 @@ public class EvalTree {
     	return null;
     }
     
+    /**
+     * Evaluates '+' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Number
+     * @throws EvalError
+     */
 	public SValue.Number evalPlus(Tree.SexprList tree, Environment env) throws EvalError {
     	int sum = 0;
     	for (int i = 1; i < tree.sexprList.size(); i++) {
@@ -110,6 +145,14 @@ public class EvalTree {
     	return new SValue.Number(sum);
     }
     
+    /**
+     * Evaluates '-' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Number
+     * @throws EvalError
+     */
     public SValue.Number evalMinus(Tree.SexprList tree, Environment env) throws EvalError {
     	int difference = ((SValue.Number) evalSexpr(tree.sexprList.get(1), env)).value;
     	for (int i = 2; i < tree.sexprList.size(); i++) {
@@ -118,6 +161,14 @@ public class EvalTree {
     	return new SValue.Number(difference);
     }
     
+    /**
+     * Evaluates '*' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Number
+     * @throws EvalError
+     */
     public SValue.Number evalMult(Tree.SexprList tree, Environment env) throws EvalError {
     	int product = 1;
     	for (int i = 1; i < tree.sexprList.size(); i++) {
@@ -126,6 +177,14 @@ public class EvalTree {
     	return new SValue.Number(product);
     }
   
+    /**
+     * Evaluates '/' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Number
+     * @throws EvalError
+     */
     public SValue.Number evalDiv(Tree.SexprList tree, Environment env) throws EvalError {
     	int quotient = ((SValue.Number) evalSexpr(tree.sexprList.get(1), env)).value;
     	for (int i = 2; i < tree.sexprList.size(); i++) {
@@ -134,6 +193,14 @@ public class EvalTree {
     	return new SValue.Number(quotient);
     }
     
+    /**
+     * Evaluates '<' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Boolean
+     * @throws EvalError
+     */
     public SValue.Boolean evalLT(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
@@ -149,6 +216,14 @@ public class EvalTree {
     	return new SValue.Boolean(((SValue.Number)a).value < ((SValue.Number)b).value);
 	}
     
+    /**
+     * Evaluates '>' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Boolean
+     * @throws EvalError
+     */
     public SValue.Boolean evalGT(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
@@ -164,6 +239,14 @@ public class EvalTree {
     	return new SValue.Boolean(((SValue.Number)a).value > ((SValue.Number)b).value);
 	}
     
+    /**
+     * Evaluates '<=' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Boolean
+     * @throws EvalError
+     */
     public SValue.Boolean evalLTE(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
@@ -179,6 +262,14 @@ public class EvalTree {
     	return new SValue.Boolean(((SValue.Number)a).value <= ((SValue.Number)b).value);
 	}
     
+    /**
+     * Evaluates '>=' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Boolean
+     * @throws EvalError
+     */
     public SValue.Boolean evalGTE(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
@@ -194,6 +285,14 @@ public class EvalTree {
     	return new SValue.Boolean(((SValue.Number)a).value >= ((SValue.Number)b).value);
 	}
     
+    /**
+     * Evaluates 'not' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Boolean
+     * @throws EvalError
+     */
     public SValue.Boolean evalNot(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 2) {
     		throw new EvalError(tree);
@@ -209,9 +308,18 @@ public class EvalTree {
     	return new SValue.Boolean(!b);
     }
     
+    /**
+     * Evaluates 'if' expressions.
+     * 	(if test conseq alt)
+     * 
+     * Evaluate test; if true, evaluate and return conseq; otherwise evaluate and return alt. 
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalIf(Tree.SexprList tree, Environment env) throws EvalError {
-//    	(if test conseq alt)
-    	
     	boolean b = true;
     	
     	if (tree.sexprList.size() != 4) {
@@ -231,6 +339,14 @@ public class EvalTree {
     	}
     }
     
+    /**
+     * Evaluates a user-defined closure.
+     * 
+     * @param tree
+     * @param oldEnv
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalClosure(Tree.SexprList tree, Environment oldEnv) throws EvalError {
     	// (proc exp...)
      	Environment env = new Environment(oldEnv);
@@ -257,9 +373,18 @@ public class EvalTree {
     	return evalSexpr(((SValue.Closure)closure).body, env);
     }
     
-    
+    /**
+     * Evaluates 'lambda' expressions.
+     * 	(lambda (var*) exp)
+     * 
+     * Create a procedure with parameter(s) named var... and the expression as the body. 
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Closure
+     * @throws EvalError
+     */
     public SValue.Closure evalLambda(Tree.SexprList tree, Environment env) throws EvalError {
-    	// (lambda (var*) exp)
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
     	}
@@ -276,9 +401,18 @@ public class EvalTree {
     	return new SValue.Closure(env, paramsList, body);
     }
     
-    
+    /**
+     * Evaluates 'define' expressions.
+     * 	(define var exp)
+     * 
+     * Define a new variable and give it the value of evaluating the expression exp. 
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Name
+     * @throws EvalError
+     */
     public SValue.Name evalDefine(Tree.SexprList tree, Environment env) throws EvalError {
-    	// (define var exp)
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
     	}
@@ -291,7 +425,14 @@ public class EvalTree {
     	return new SValue.Name(variable);
     }
     
-    
+    /**
+     * Evaluates '=' or 'eq?' expressions.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalEqual(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
@@ -338,6 +479,12 @@ public class EvalTree {
     }
     
 
+    /**
+     * Converts a Tree.Sexpr expression into a SValue.Base value.
+     * 
+     * @param sexpr
+     * @return SValue.Base
+     */
     private SValue.Base quote(Tree.Sexpr sexpr) {
     	SValue.Base val = null;
 		if (sexpr instanceof Tree.SexprNumber) {
@@ -350,6 +497,15 @@ public class EvalTree {
 		return val;
     }
     
+    /**
+     * Evaluates 'quote' expressions.
+     * 
+     * Return the exp literally; do not evaluate it.
+     * 
+     * @param tree
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalQuote(Tree.SexprList tree) throws EvalError {
     	if (tree.sexprList.size() != 2) {
     		throw new EvalError(tree);
@@ -371,6 +527,14 @@ public class EvalTree {
     	}
     }
     
+    /**
+     * Evaluates a 'list' expression.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalList(Tree.SexprList tree, Environment env) throws EvalError {
     	ArrayList<SValue.Base> vals = new ArrayList<SValue.Base>();
     	for (int i = 1; i < ((Tree.SexprList)tree).sexprList.size(); i++) {
@@ -383,6 +547,14 @@ public class EvalTree {
     	return new SValue.List(vals);
     }
     
+    /**
+     * Evaluates a 'car' expression.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalCar(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 2) {
     		throw new EvalError(tree);
@@ -394,6 +566,14 @@ public class EvalTree {
     	return ((SValue.List) val).list.get(0);
     }
     
+    /**
+     * Evaluates a 'cdr' expression.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalCdr(Tree.SexprList tree, Environment env) throws EvalError {
     	ArrayList<SValue.Base> vals = new ArrayList<SValue.Base>();
     	if (tree.sexprList.size() != 2) {
@@ -408,6 +588,14 @@ public class EvalTree {
     	return new SValue.List(vals);
     }
 
+    /**
+     * Evaluates a 'null?' expression.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Boolean evalNull(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 2) {
     		throw new EvalError(tree);
@@ -419,6 +607,14 @@ public class EvalTree {
     	return new SValue.Boolean(((SValue.List)val).list.isEmpty());
     }
 
+    /**
+     * Evaluates a 'display' expression.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalDisplay(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 2) {
     		throw new EvalError(tree);
@@ -428,8 +624,19 @@ public class EvalTree {
     	return val;
     }
     
+    /**
+     * Evaluates a 'set' expression.
+     * (set! var exp)
+     * 
+     * Evaluate exp and assign that value to var, which must have been 
+     * previously defined (with a define or as a parameter to an enclosing procedure). 
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Name
+     * @throws EvalError
+     */
     public SValue.Name evalSet(Tree.SexprList tree, Environment env) throws EvalError {
-    	// (set! var exp)
     	if (tree.sexprList.size() != 3) {
     		throw new EvalError(tree);
     	}
@@ -446,6 +653,14 @@ public class EvalTree {
     	return new SValue.Name(((Tree.SexprIdent)sexpr).value);
     }
     
+    /**
+     * Evaluates a 'list?' expression.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Boolean evalIsList(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 2) {
     		throw new EvalError(tree);
@@ -464,6 +679,14 @@ public class EvalTree {
     	}
     }
 
+    /**
+     * Evaluates a 'length' expression.
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Number evalLength(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() != 2) {
     		throw new EvalError(tree);
@@ -484,6 +707,16 @@ public class EvalTree {
     	}
     }
     
+    /**
+     * Evaluates a 'begin' expression.
+     * 
+     * Evaluate each of the expressions in left-to-right order, and return the final value. 
+     * 
+     * @param tree
+     * @param env
+     * @return SValue.Base
+     * @throws EvalError
+     */
     public SValue.Base evalBegin(Tree.SexprList tree, Environment env) throws EvalError {
     	if (tree.sexprList.size() < 2) {
     		throw new EvalError(tree);

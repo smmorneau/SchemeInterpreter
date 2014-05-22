@@ -7,8 +7,14 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Runs the REPL or a Scheme file.
+ */
 public class Main {
 	
+	/*
+	 * Run the REPL if there are no command line arguments.
+	 */
 	public static void repl() {
 		System.out.println("Scheme Interpreter v3 by Steely Morneau");
 		int counter = 1;
@@ -32,6 +38,9 @@ public class Main {
 		
 	}
 	
+	/*
+	 * Run a .scm file.
+	 */
 	public static void scm(String filename) {
 		if (!filename.endsWith(".scm")) {
 			System.out.println("File must have extension '.scm'");

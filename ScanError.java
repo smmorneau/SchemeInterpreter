@@ -1,5 +1,6 @@
-// ScanError - An exception for parse errors.
-
+/**
+ * An exception for scan errors.
+ */
 public class ScanError extends Exception {
     int position;
     char character;

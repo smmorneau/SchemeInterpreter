@@ -1,5 +1,9 @@
 import java.util.HashMap;
 
+/**
+ * Stores the variable environment.
+ * Links to the enclosing environment to form a stack of Environments to support closures.
+ */
 public class Environment {
 	Environment prev;
 	HashMap<String, SValue.Base> env;
@@ -43,6 +47,9 @@ public class Environment {
         env.put(name, value);
     }
 
+    /*
+     * Lookup the variable in the current Environment or any parent Environment.
+     */
 	public SValue.Base lookup(String name) {
 		SValue.Base value = this.env.get(name);
 		if( (value == null) && (prev != null) ) {
